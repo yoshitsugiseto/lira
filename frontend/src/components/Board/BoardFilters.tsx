@@ -1,4 +1,5 @@
 import { X } from 'lucide-react'
+import { TypeIcon } from '../common/Badge'
 import type { Issue, IssuePriority, IssueType } from '../../types'
 
 export interface Filters {
@@ -64,22 +65,20 @@ export function BoardFilters({ issues, filters, onChange }: Props) {
       {/* Type */}
       <div className="flex items-center gap-1">
         <span className="text-xs text-gray-400">タイプ:</span>
-        {(['story', 'task', 'bug', 'spike'] as IssueType[]).map(t => {
-          const emoji = t === 'story' ? '📗' : t === 'task' ? '✅' : t === 'bug' ? '🐛' : '⚡'
-          return (
-            <button
-              key={t}
-              onClick={() => onChange({ ...filters, type: filters.type === t ? undefined : t })}
-              className={`text-xs px-2 py-0.5 rounded-full border transition-colors ${
-                filters.type === t
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'border-gray-200 text-gray-600 hover:border-blue-300'
-              }`}
-            >
-              {emoji} {t}
-            </button>
-          )
-        })}
+        {(['story', 'task', 'bug', 'spike'] as IssueType[]).map(t => (
+          <button
+            key={t}
+            onClick={() => onChange({ ...filters, type: filters.type === t ? undefined : t })}
+            className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition-colors ${
+              filters.type === t
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'border-gray-200 text-gray-600 hover:border-blue-300'
+            }`}
+          >
+            <TypeIcon type={t} />
+            <span className="capitalize">{t}</span>
+          </button>
+        ))}
       </div>
 
       {hasFilters && (

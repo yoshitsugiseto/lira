@@ -25,7 +25,7 @@ export function BoardPage() {
   const { activeProjectId, activeSprint, setActiveSprint } = useAppStore()
   const [creating, setCreating] = useState(false)
   const [filters, setFilters] = useState<Filters>({})
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(true)
   const [showBurndown, setShowBurndown] = useState(false)
   const [sortByPriority, setSortByPriority] = useState(false)
 
