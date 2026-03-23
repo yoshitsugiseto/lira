@@ -1,0 +1,13 @@
+use sqlx::{sqlite::SqliteConnectOptions, SqlitePool};
+use std::str::FromStr;
+
+pub async fn create_pool(database_url: &str) -> anyhow::Result<SqlitePool> {
+    let opts = SqliteConnectOptions::from_str(database_url)?
+        .foreign_keys(true)
+        .create_if_missing(true);
+
+    let pool = SqlitePool::connect_with(opts).await?;
+    sqlx::migrate!("./migrations").run(&pool).await?;
+
+    Ok(pool)
+}

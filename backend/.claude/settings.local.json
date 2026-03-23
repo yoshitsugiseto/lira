@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /Users/yseto/workspace/lira/backend/*.md)",
+      "Bash(cargo build:*)",
+      "Bash(npm run:*)",
+      "Bash(head -3 grep -n \"return \\(\" /Users/yseto/workspace/lira/frontend/src/pages/SprintPage.tsx)",
+      "Bash(head -3 grep -n \"return \\(\" /Users/yseto/workspace/lira/frontend/src/pages/SearchPage.tsx)",
+      "Bash(sed -n '84,86p' /Users/yseto/workspace/lira/frontend/src/pages/BoardPage.tsx)",
+      "Bash(sed -n '143,145p' /Users/yseto/workspace/lira/frontend/src/pages/SprintPage.tsx)",
+      "Bash(sed -n '28,30p' /Users/yseto/workspace/lira/frontend/src/pages/SearchPage.tsx)"
+    ]
+  }
+}

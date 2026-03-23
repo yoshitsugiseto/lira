@@ -1,0 +1,123 @@
+use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, sqlx::FromRow)]
+pub struct IssueRow {
+    pub id: String,
+    pub project_id: String,
+    pub sprint_id: Option<String>,
+    pub parent_id: Option<String>,
+    pub number: i64,
+    pub title: String,
+    pub description: Option<String>,
+    pub r#type: String,
+    pub status: String,
+    pub priority: String,
+    pub points: Option<i64>,
+    pub assignee: Option<String>,
+    pub labels: Option<String>, // JSON string
+    pub position: i64,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
+}
+
+#[derive(Debug, Serialize)]
+pub struct Issue {
+    pub id: String,
+    pub project_id: String,
+    pub sprint_id: Option<String>,
+    pub parent_id: Option<String>,
+    pub number: i64,
+    pub title: String,
+    pub description: Option<String>,
+    pub r#type: String,
+    pub status: String,
+    pub priority: String,
+    pub points: Option<i64>,
+    pub assignee: Option<String>,
+    pub labels: Vec<String>,
+    pub position: i64,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
+}
+
+impl From<IssueRow> for Issue {
+    fn from(row: IssueRow) -> Self {
+        let labels = row
+            .labels
+            .as_deref()
+            .and_then(|s| {
+                serde_json::from_str(s)
+                    .map_err(|e| tracing::warn!(issue_id = %row.id, "Failed to parse labels JSON: {e}"))
+                    .ok()
+            })
+            .unwrap_or_default();
+        Self {
+            id: row.id,
+            project_id: row.project_id,
+            sprint_id: row.sprint_id,
+            parent_id: row.parent_id,
+            number: row.number,
+            title: row.title,
+            description: row.description,
+            r#type: row.r#type,
+            status: row.status,
+            priority: row.priority,
+            points: row.points,
+            assignee: row.assignee,
+            labels,
+            position: row.position,
+            created_at: row.created_at,
+            updated_at: row.updated_at,
+        }
+    }
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CreateIssue {
+    pub title: String,
+    pub description: Option<String>,
+    pub r#type: Option<String>,
+    pub priority: Option<String>,
+    pub points: Option<i64>,
+    pub assignee: Option<String>,
+    pub labels: Option<Vec<String>>,
+    pub sprint_id: Option<String>,
+    pub parent_id: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateIssue {
+    pub title: Option<String>,
+    pub description: Option<String>,
+    pub r#type: Option<String>,
+    pub status: Option<String>,
+    pub priority: Option<String>,
+    pub points: Option<i64>,
+    pub assignee: Option<String>,
+    pub labels: Option<Vec<String>>,
+    pub sprint_id: Option<String>,
+    pub parent_id: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateIssueStatus {
+    pub status: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateIssueSprint {
+    pub sprint_id: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Default)]
+pub struct IssueFilters {
+    pub sprint_id: Option<String>,
+    pub status: Option<String>,
+    pub r#type: Option<String>,
+    pub priority: Option<String>,
+    pub assignee: Option<String>,
+    pub q: Option<String>,
+    pub limit: Option<i64>,
+    pub offset: Option<i64>,
+}

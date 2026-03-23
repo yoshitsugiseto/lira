@@ -1,0 +1,8 @@
+CREATE TABLE comments (
+    id         TEXT PRIMARY KEY,
+    issue_id   TEXT NOT NULL REFERENCES issues(id) ON DELETE CASCADE,
+    author     TEXT NOT NULL,
+    body       TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
