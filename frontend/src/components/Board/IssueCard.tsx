@@ -63,7 +63,7 @@ export function IssueCard({ issue, index, projectId }: Props) {
             {issue.type === 'story' && subtasks.length > 0 && (
               <div className="mb-2">
                 <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs text-gray-400">{doneTasks}/{subtasks.length} tasks</span>
+                  <span className="text-xs text-gray-400">{doneTasks}/{subtasks.length} 件</span>
                   <span className="text-xs text-gray-400">
                     {Math.round((doneTasks / subtasks.length) * 100)}%
                   </span>

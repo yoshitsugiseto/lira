@@ -141,7 +141,7 @@ export function BoardPage() {
               }`}
             >
               <SlidersHorizontal size={14} />
-              Filter
+              フィルター
               {hasFilters && (
                 <span className="bg-blue-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   {Object.values(filters).filter(Boolean).length}
@@ -159,7 +159,7 @@ export function BoardPage() {
               }`}
               title="優先度順にソート"
             >
-              ↕ Priority
+              ↕ 優先度
             </button>
 
             {/* バーンダウンボタン */}
@@ -172,14 +172,14 @@ export function BoardPage() {
               }`}
             >
               <BarChart2 size={14} />
-              Burndown
+              バーンダウン
             </button>
 
             <button
               onClick={() => setCreating(true)}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
             >
-              <Plus size={16} /> New Issue
+              <Plus size={16} /> Issueを作成
             </button>
           </div>
         </div>
@@ -193,11 +193,11 @@ export function BoardPage() {
             />
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-500">
-            <span className="font-medium text-gray-700">{progress}% complete</span>
+            <span className="font-medium text-gray-700">{progress}% 完了</span>
             <span>{donePoints}/{totalPoints} pts</span>
-            <span>{rawIssues.length} issues</span>
+            <span>{rawIssues.length} 件</span>
             {inProgressCount > 0 && (
-              <span className="text-blue-600">{inProgressCount} in progress</span>
+              <span className="text-blue-600">{inProgressCount} 件進行中</span>
             )}
           </div>
         </div>
@@ -212,7 +212,7 @@ export function BoardPage() {
         {/* バーンダウンチャート */}
         {showBurndown && currentSprint && (
           <div className="mt-3 pt-3 border-t border-gray-100">
-            <p className="text-xs font-medium text-gray-500 mb-2">Burndown Chart</p>
+            <p className="text-xs font-medium text-gray-500 mb-2">バーンダウンチャート</p>
             <BurndownChart sprint={currentSprint} />
           </div>
         )}
@@ -221,7 +221,7 @@ export function BoardPage() {
       {/* Board */}
       <div className="flex-1 overflow-auto p-6">
         {isLoading ? (
-          <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">Loading...</div>
+          <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">読み込み中...</div>
         ) : (
           <Board issues={issues} projectId={activeProjectId} queryKey={issuesQueryKey} />
         )}

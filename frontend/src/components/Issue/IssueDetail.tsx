@@ -96,7 +96,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
   return (
     <>
     {addingSubtask && (
-      <Modal title="Add Subtask" onClose={() => setAddingSubtask(false)}>
+      <Modal title="サブタスクを追加" onClose={() => setAddingSubtask(false)}>
         <IssueForm
           projectId={projectId}
           parentId={issueId}
@@ -124,19 +124,19 @@ export function IssueDetail({ issueId, projectId }: Props) {
             className="shrink-0 flex items-center gap-1 text-xs text-gray-400 hover:text-blue-600 px-2 py-1 rounded hover:bg-blue-50"
             aria-label="イシューを編集"
           >
-            <Pencil size={12} aria-hidden="true" /> Edit
+            <Pencil size={12} aria-hidden="true" /> 編集
           </button>
         </div>
 
         {/* Description */}
         <div className="mb-6">
-          <p className="text-sm font-medium text-gray-500 mb-1">Description</p>
+          <p className="text-sm font-medium text-gray-500 mb-1">説明</p>
           {issue.description ? (
             <p className="text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 rounded-lg p-3">
               {issue.description}
             </p>
           ) : (
-            <p className="text-sm text-gray-400 italic">No description</p>
+            <p className="text-sm text-gray-400 italic">説明なし</p>
           )}
         </div>
 
@@ -145,13 +145,13 @@ export function IssueDetail({ issueId, projectId }: Props) {
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-medium text-gray-500 flex items-center gap-1">
-                <ListTodo size={14} /> Child Issues ({subtasks.length})
+                <ListTodo size={14} /> 子タスク ({subtasks.length})
               </p>
               <button
                 onClick={() => setAddingSubtask(true)}
                 className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 px-2 py-1 rounded hover:bg-blue-50"
               >
-                <Plus size={12} /> Add
+                <Plus size={12} /> 追加
               </button>
             </div>
             {subtasksError ? (
@@ -185,7 +185,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
               tab === 'comments' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
-            <MessageSquare size={14} /> Comments
+            <MessageSquare size={14} /> コメント
           </button>
           <button
             onClick={() => setTab('activity')}
@@ -193,7 +193,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
               tab === 'activity' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
-            <Clock size={14} /> Activity
+            <Clock size={14} /> アクティビティ
           </button>
         </div>
 
@@ -221,13 +221,13 @@ export function IssueDetail({ issueId, projectId }: Props) {
               <input
                 value={commentAuthor}
                 onChange={e => setCommentAuthor(e.target.value)}
-                placeholder="Your name"
+                placeholder="名前"
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
               />
               <textarea
                 value={commentText}
                 onChange={e => setCommentText(e.target.value)}
-                placeholder="Add a comment..."
+                placeholder="コメントを入力..."
                 rows={3}
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none"
               />
@@ -236,7 +236,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
                 disabled={!commentText.trim() || commentMutation.isPending}
                 className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:opacity-40"
               >
-                {commentMutation.isPending ? 'Saving...' : 'Comment'}
+                {commentMutation.isPending ? '保存中...' : 'コメント'}
               </button>
             </div>
           </div>
@@ -248,7 +248,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
               <p className="text-sm text-red-400">アクティビティの取得に失敗しました</p>
             )}
             {!activityError && activity.length === 0 && (
-              <p className="text-sm text-gray-400">No activity yet</p>
+              <p className="text-sm text-gray-400">アクティビティなし</p>
             )}
             {activity.map(a => (
               <div key={a.id} className="flex items-center gap-2 text-sm text-gray-600">
@@ -271,7 +271,7 @@ export function IssueDetail({ issueId, projectId }: Props) {
       {/* Sidebar metadata */}
       <div className="w-48 shrink-0 space-y-4 text-sm">
         <div>
-          <p className="text-xs text-gray-400 mb-1">Status</p>
+          <p className="text-xs text-gray-400 mb-1">ステータス</p>
           <select
             value={issue.status}
             onChange={e => statusMutation.mutate(e.target.value as IssueStatus)}
@@ -284,12 +284,12 @@ export function IssueDetail({ issueId, projectId }: Props) {
         </div>
 
         <div>
-          <p className="text-xs text-gray-400 mb-1">Priority</p>
+          <p className="text-xs text-gray-400 mb-1">優先度</p>
           <PriorityBadge priority={issue.priority} />
         </div>
 
         <div>
-          <p className="text-xs text-gray-400 mb-1">Type</p>
+          <p className="text-xs text-gray-400 mb-1">タイプ</p>
           <span className="flex items-center gap-1">
             <TypeIcon type={issue.type} />
             <span className="capitalize text-gray-700">{issue.type}</span>
@@ -298,14 +298,14 @@ export function IssueDetail({ issueId, projectId }: Props) {
 
         {issue.points != null && (
           <div>
-            <p className="text-xs text-gray-400 mb-1">Story Points</p>
+            <p className="text-xs text-gray-400 mb-1">ポイント</p>
             <span className="font-mono font-semibold text-gray-800">{issue.points}</span>
           </div>
         )}
 
         {issue.assignee && (
           <div>
-            <p className="text-xs text-gray-400 mb-1">Assignee</p>
+            <p className="text-xs text-gray-400 mb-1">担当者</p>
             <div className="flex items-center gap-2">
               <Avatar name={issue.assignee} />
               <span className="text-gray-700">{issue.assignee}</span>

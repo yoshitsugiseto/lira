@@ -36,12 +36,12 @@ function CompletedSprintCard({ sprint, issues }: { sprint: Sprint; issues: Issue
             showBurndown ? 'bg-purple-100 text-purple-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
           }`}
         >
-          <BarChart2 size={14} /> Burndown
+          <BarChart2 size={14} /> バーンダウン
         </button>
       </div>
 
       <div className="mt-4 flex items-center gap-6 text-sm text-gray-500">
-        <span>{sprintIssues.length} issues</span>
+        <span>{sprintIssues.length} 件</span>
         <span>{donePts}/{totalPts} pts</span>
         {totalPts > 0 && (
           <div className="flex items-center gap-2 flex-1">
@@ -129,12 +129,12 @@ export function SprintHistoryPage({ onNavigate }: { onNavigate: (page: string) =
           onClick={() => onNavigate('sprints')}
           className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm rounded-lg border border-gray-200 hover:bg-gray-50"
         >
-          <ArrowLeft size={16} /> Sprints
+          <ArrowLeft size={16} /> Sprint一覧
         </button>
       </div>
 
       {isLoading ? (
-        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">Loading...</div>
+        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">読み込み中...</div>
       ) : completed.length === 0 ? (
         <div className="text-center py-12 text-gray-400">完了済みのスプリントはありません</div>
       ) : (

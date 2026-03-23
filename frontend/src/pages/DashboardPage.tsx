@@ -160,7 +160,7 @@ export function DashboardPage() {
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="text-sm font-semibold text-gray-700 mb-4">最近更新されたイシュー</h2>
         {isLoading ? (
-          <p role="status" aria-label="読み込み中" className="text-gray-400 text-sm">Loading...</p>
+          <p role="status" aria-label="読み込み中" className="text-gray-400 text-sm">読み込み中...</p>
         ) : (
           <div className="divide-y divide-gray-100">
             {recentIssues.map(issue => (
@@ -190,7 +190,7 @@ export function DashboardPage() {
         const issue = issues.find(i => i.id === detailId)
         return (
           <DetailPanel
-            title={issue ? `#${issue.number} ${issue.title}` : 'Issue Detail'}
+            title={issue ? `#${issue.number} ${issue.title}` : 'Issue詳細'}
             onClose={() => setDetailId(null)}
           >
             <IssueDetail issueId={detailId} projectId={activeProjectId} />

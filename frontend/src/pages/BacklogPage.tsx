@@ -234,7 +234,7 @@ function SprintGroup({
             {open && (
               <div className="divide-y divide-gray-100">
                 {issues.length === 0 && !snapshot.isDraggingOver ? (
-                  <p className="text-sm text-gray-400 px-4 py-3 italic">No issues</p>
+                  <p className="text-sm text-gray-400 px-4 py-3 italic">Issueなし</p>
                 ) : (
                   issues.map((issue, index) => (
                     <IssueRow
@@ -360,7 +360,7 @@ export function BacklogPage() {
           onClick={() => setCreating(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
         >
-          <Plus size={16} /> New Issue
+          <Plus size={16} /> Issueを作成
         </button>
       </div>
       <div className="relative mb-4">
@@ -382,7 +382,7 @@ export function BacklogPage() {
       </div>
 
       {isLoading ? (
-        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">Loading...</div>
+        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">読み込み中...</div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="space-y-4">
