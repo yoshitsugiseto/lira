@@ -52,33 +52,33 @@ function SprintForm({
   return (
     <form onSubmit={e => { e.preventDefault(); mutation.mutate() }} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Sprint Name *</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">スプリント名 *</label>
         <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Sprint 1" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Goal</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">ゴール</label>
         <textarea value={form.goal} onChange={e => setForm(f => ({ ...f, goal: e.target.value }))}
           rows={2} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Start Date *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">開始日 *</label>
           <input required type="date" value={form.start_date} onChange={e => setForm(f => ({ ...f, start_date: e.target.value }))}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">End Date *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">終了日 *</label>
           <input required type="date" value={form.end_date} onChange={e => setForm(f => ({ ...f, end_date: e.target.value }))}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
         </div>
       </div>
       <div className="flex justify-end gap-3 pt-2">
-        <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600">Cancel</button>
+        <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600">キャンセル</button>
         <button type="submit" disabled={mutation.isPending}
           className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:opacity-50">
-          {mutation.isPending ? 'Saving...' : sprint ? 'Save' : 'Create Sprint'}
+          {mutation.isPending ? '保存中...' : sprint ? '保存' : 'Sprintを作成'}
         </button>
       </div>
     </form>
@@ -212,26 +212,26 @@ function SprintCard({
                 showBurndown ? 'bg-purple-100 text-purple-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
               }`}
             >
-              <BarChart2 size={14} /> Burndown
+              <BarChart2 size={14} /> バーンダウン
             </button>
           )}
           {sprint.status === 'planning' && (
             <button onClick={onStart}
               className="flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-700 text-sm rounded-lg hover:bg-blue-100">
-              <Play size={14} /> Start
+              <Play size={14} /> 開始
             </button>
           )}
           {sprint.status === 'active' && (
             <button onClick={onComplete}
               className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 text-sm rounded-lg hover:bg-emerald-100">
-              <CheckCircle size={14} /> Complete
+              <CheckCircle size={14} /> 完了
             </button>
           )}
         </div>
       </div>
 
       <div className="mt-4 flex items-center gap-6 text-sm text-gray-500">
-        <span>{sprintIssues.length} issues</span>
+        <span>{sprintIssues.length} 件</span>
         <span>{donePts}/{totalPts} pts</span>
         {totalPts > 0 && (
           <div className="flex items-center gap-2 flex-1">
@@ -250,7 +250,7 @@ function SprintCard({
       )}
 
       {editing && (
-        <Modal title={`Edit "${sprint.name}"`} onClose={() => setEditing(false)}>
+        <Modal title={`「${sprint.name}」を編集`} onClose={() => setEditing(false)}>
           <SprintForm projectId={projectId} sprint={sprint} onClose={() => setEditing(false)} />
         </Modal>
       )}
@@ -306,17 +306,17 @@ export function SprintPage({ onNavigate }: { onNavigate: (page: string) => void 
         <div className="flex items-center gap-2">
           <button onClick={() => onNavigate('sprint-history')}
             className="flex items-center gap-2 px-4 py-2 text-gray-600 text-sm rounded-lg border border-gray-200 hover:bg-gray-50">
-            <History size={16} /> History
+            <History size={16} /> 履歴
           </button>
           <button onClick={() => setCreating(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">
-            <Plus size={16} /> New Sprint
+            <Plus size={16} /> Sprintを作成
           </button>
         </div>
       </div>
 
       {isLoading ? (
-        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">Loading...</div>
+        <div role="status" aria-label="読み込み中" className="text-gray-400 text-center py-12">読み込み中...</div>
       ) : (
         <div className="space-y-4">
           {sprints.filter(s => s.status !== 'completed').map(sprint => {
@@ -347,7 +347,7 @@ export function SprintPage({ onNavigate }: { onNavigate: (page: string) => void 
       )}
 
       {creating && (
-        <Modal title="New Sprint" onClose={() => setCreating(false)}>
+        <Modal title="Sprintを作成" onClose={() => setCreating(false)}>
           <SprintForm projectId={activeProjectId} onClose={() => setCreating(false)} />
         </Modal>
       )}
@@ -356,7 +356,7 @@ export function SprintPage({ onNavigate }: { onNavigate: (page: string) => void 
         const sprint = sprints.find(s => s.id === completing)!
         const incompleteIssues = issues.filter(i => i.sprint_id === completing && i.status !== 'done' && !i.parent_id)
         return (
-          <Modal title={`Complete "${sprint.name}"`} onClose={() => setCompleting(null)}>
+          <Modal title={`「${sprint.name}」を完了`} onClose={() => setCompleting(null)}>
             <CompleteSprintDialog
               sprint={sprint}
               incompleteIssues={incompleteIssues}

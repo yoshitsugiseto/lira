@@ -26,7 +26,7 @@ export function BurndownChart({ sprint }: Props) {
   }
 
   if (isLoading) {
-    return <div role="status" aria-label="読み込み中" className="flex items-center justify-center h-48 text-gray-400 text-sm">Loading...</div>
+    return <div role="status" aria-label="読み込み中" className="flex items-center justify-center h-48 text-gray-400 text-sm">読み込み中...</div>
   }
 
   const today = new Date().toISOString().split('T')[0]
@@ -42,7 +42,7 @@ export function BurndownChart({ sprint }: Props) {
         />
         <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
         <Tooltip
-          labelFormatter={l => `Date: ${l}`}
+          labelFormatter={l => `日付: ${l}`}
           formatter={(v, name) => [
             `${Math.round(Number(v))}pt`,
             name === 'ideal' ? 'Ideal' : 'Actual',
@@ -50,7 +50,7 @@ export function BurndownChart({ sprint }: Props) {
         />
         <Legend formatter={v => v === 'ideal' ? 'Ideal' : 'Actual'} />
         {data.some(d => d.date === today) && (
-          <ReferenceLine x={today} stroke="#94a3b8" strokeDasharray="4 4" label={{ value: 'Today', fontSize: 10 }} />
+          <ReferenceLine x={today} stroke="#94a3b8" strokeDasharray="4 4" label={{ value: '今日', fontSize: 10 }} />
         )}
         <Line
           type="monotone"

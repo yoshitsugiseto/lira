@@ -79,30 +79,30 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">タイトル *</label>
         <input
           required
           value={form.title}
           onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Issue title"
+          placeholder="Issueのタイトル"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">説明</label>
         <textarea
           value={form.description}
           onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
           rows={4}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Optional description..."
+          placeholder="説明（任意）"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">タイプ</label>
           <select
             value={form.type}
             onChange={e => {
@@ -124,7 +124,7 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">優先度</label>
           <select
             value={form.priority}
             onChange={e => setForm(f => ({ ...f, priority: e.target.value as IssuePriority }))}
@@ -138,7 +138,7 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Points</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">ポイント</label>
           <input
             type="number"
             min="0"
@@ -152,12 +152,12 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Assignee</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">担当者</label>
           <input
             value={form.assignee}
             onChange={e => setForm(f => ({ ...f, assignee: e.target.value }))}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-            placeholder="Name"
+            placeholder="名前"
           />
         </div>
       </div>
@@ -165,7 +165,7 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
       {/* 親ストーリー（Story タイプ以外のとき表示） */}
       {form.type !== 'story' && stories.length > 0 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Parent Story</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">親ストーリー</label>
           <select
             value={form.parent_id}
             onChange={e => setForm(f => ({ ...f, parent_id: e.target.value }))}
@@ -181,14 +181,14 @@ export function IssueForm({ projectId, sprintId, parentId, parentPriority, issue
 
       <div className="flex justify-end gap-3 pt-2">
         <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">
-          Cancel
+          キャンセル
         </button>
         <button
           type="submit"
           disabled={isPending}
           className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
-          {isPending ? 'Saving...' : issue ? 'Update' : 'Create'}
+          {isPending ? '保存中...' : issue ? '更新' : '作成'}
         </button>
       </div>
     </form>
