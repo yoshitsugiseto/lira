@@ -4,14 +4,6 @@
 
 ---
 
-## スクリーンショット
-
-| ボード | バックログ |
-|--------|-----------|
-| ![Board](docs/board.png) | ![Backlog](docs/backlog.png) |
-
----
-
 ## 特徴
 
 - **カンバンボード** — ドラッグ&ドロップでステータス変更
@@ -50,6 +42,12 @@
 ```bash
 git clone https://github.com/yourname/lira.git
 cd lira
+```
+
+環境変数はデフォルトのままで動きますが、変更したい場合は `.env.example` をコピーして編集します。
+
+```bash
+cp .env.example backend/.env
 ```
 
 ### バックエンド起動
