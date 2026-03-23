@@ -36,18 +36,18 @@ export function IssueDetail({ issueId, projectId }: Props) {
     queryFn: () => getIssue(issueId),
   })
 
-  const { data: subtasks = [] } = useQuery({
+  const { data: subtasks = [], isError: subtasksError } = useQuery({
     queryKey: ['children', issueId],
     queryFn: () => getIssueChildren(issueId),
   })
 
-  const { data: comments = [] } = useQuery({
+  const { data: comments = [], isError: commentsError } = useQuery({
     queryKey: ['comments', issueId],
     queryFn: () => getComments(issueId),
     enabled: tab === 'comments',
   })
 
-  const { data: activity = [] } = useQuery({
+  const { data: activity = [], isError: activityError } = useQuery({
     queryKey: ['activity', issueId],
     queryFn: () => getActivity(issueId),
     enabled: tab === 'activity',
@@ -71,8 +71,12 @@ export function IssueDetail({ issueId, projectId }: Props) {
     onError: () => showToast('コメントの投稿に失敗しました', 'error'),
   })
 
-  if (isLoading || !issue) {
+  if (isLoading) {
     return <div role="status" aria-label="読み込み中" className="p-8 text-center text-gray-400">Loading...</div>
+  }
+
+  if (!issue) {
+    return <div className="p-8 text-center text-red-400">イシューの取得に失敗しました</div>
   }
 
   if (editing) {
@@ -150,7 +154,9 @@ export function IssueDetail({ issueId, projectId }: Props) {
                 <Plus size={12} /> Add
               </button>
             </div>
-            {subtasks.length === 0 ? (
+            {subtasksError ? (
+              <p className="text-xs text-red-400">サブタスクの取得に失敗しました</p>
+            ) : subtasks.length === 0 ? (
               <p className="text-xs text-gray-400 italic">サブタスクなし</p>
             ) : (
               <div className="space-y-1">
@@ -193,6 +199,9 @@ export function IssueDetail({ issueId, projectId }: Props) {
 
         {tab === 'comments' && (
           <div className="space-y-3">
+            {commentsError && (
+              <p className="text-sm text-red-400">コメントの取得に失敗しました</p>
+            )}
             {comments.map(c => (
               <div key={c.id} className="flex gap-3">
                 <Avatar name={c.author} />
@@ -235,7 +244,10 @@ export function IssueDetail({ issueId, projectId }: Props) {
 
         {tab === 'activity' && (
           <div className="space-y-2">
-            {activity.length === 0 && (
+            {activityError && (
+              <p className="text-sm text-red-400">アクティビティの取得に失敗しました</p>
+            )}
+            {!activityError && activity.length === 0 && (
               <p className="text-sm text-gray-400">No activity yet</p>
             )}
             {activity.map(a => (

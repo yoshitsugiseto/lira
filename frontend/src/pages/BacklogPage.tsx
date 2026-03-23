@@ -128,7 +128,7 @@ function IssueRow({
                     e.stopPropagation()
                     const msg = subtasks.length > 0
                       ? `このストーリーには${subtasks.length}件のサブタスクがあります。削除すると親の関連が解除されます。続けますか？`
-                      : 'Delete this issue?'
+                      : 'このイシューを削除しますか？'
                     if (confirm(msg)) deleteMutation.mutate()
                   }}
                   className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
@@ -335,7 +335,7 @@ export function BacklogPage() {
   const topLevel = issues.filter(i => !i.parent_id && (!q || i.title.toLowerCase().includes(q)))
   const backlog = topLevel.filter(i => !i.sprint_id)
   const grouped = sprints
-    .filter(s => s.status === 'active')
+    .filter(s => s.status !== 'completed')
     .map(s => ({
       sprint: s,
       issues: topLevel.filter(i => i.sprint_id === s.id),
