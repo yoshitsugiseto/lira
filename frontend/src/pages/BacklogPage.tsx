@@ -11,6 +11,7 @@ import { IssueForm } from '../components/Issue/IssueForm'
 import { IssueDetail } from '../components/Issue/IssueDetail'
 import { TypeIcon, PriorityBadge, StatusBadge } from '../components/common/Badge'
 import { Avatar } from '../components/common/Avatar'
+import { ConfirmDialog } from '../components/common/ConfirmDialog'
 import { useToast } from '../components/common/Toast'
 import type { Issue } from '../types'
 
@@ -57,6 +58,7 @@ function IssueRow({
   const qc = useQueryClient()
   const [editing, setEditing] = useState(false)
   const [subtasksOpen, setSubtasksOpen] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const showToast = useToast()
   const deleteMutation = useMutation({
@@ -124,13 +126,7 @@ function IssueRow({
                   <Pencil size={12} aria-hidden="true" />
                 </button>
                 <button
-                  onClick={e => {
-                    e.stopPropagation()
-                    const msg = subtasks.length > 0
-                      ? `このストーリーには${subtasks.length}件のサブタスクがあります。削除すると親の関連が解除されます。続けますか？`
-                      : 'このイシューを削除しますか？'
-                    if (confirm(msg)) deleteMutation.mutate()
-                  }}
+                  onClick={e => { e.stopPropagation(); setConfirmDelete(true) }}
                   className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
                   title="Delete"
                   aria-label="イシューを削除"
@@ -151,6 +147,18 @@ function IssueRow({
         <Modal title={`Edit #${issue.number}`} onClose={() => setEditing(false)}>
           <IssueForm projectId={projectId} issue={issue} onClose={() => setEditing(false)} />
         </Modal>
+      )}
+
+      {confirmDelete && (
+        <ConfirmDialog
+          message={
+            subtasks.length > 0
+              ? `このストーリーには${subtasks.length}件のサブタスクがあります。削除すると親の関連が解除されます。続けますか？`
+              : 'このイシューを削除しますか？'
+          }
+          onConfirm={() => { setConfirmDelete(false); deleteMutation.mutate() }}
+          onCancel={() => setConfirmDelete(false)}
+        />
       )}
     </>
   )
