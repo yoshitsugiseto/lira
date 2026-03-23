@@ -23,7 +23,7 @@ export function SearchPage({ query }: Props) {
 
   const effectivePage = query.length >= 2 ? page : 0
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['issues', activeProjectId, 'search', query, effectivePage],
     queryFn: () =>
       getIssuesPaged(activeProjectId!, {
@@ -74,7 +74,11 @@ export function SearchPage({ query }: Props) {
           <p role="status" aria-label="検索中" className="text-gray-400">検索中...</p>
         )}
 
-        {!isLoading && query.length >= 2 && issues.length === 0 && (
+        {isError && (
+          <p className="text-red-400 text-sm">検索に失敗しました</p>
+        )}
+
+        {!isLoading && !isError && query.length >= 2 && issues.length === 0 && (
           <p className="text-gray-400 text-sm">該当するイシューが見つかりません</p>
         )}
 
@@ -172,7 +176,7 @@ export function SearchPage({ query }: Props) {
         const issue = issues.find(i => i.id === detailId)
         return (
           <Modal
-            title={issue ? `#${issue.number} ${issue.title}` : 'Issue Detail'}
+            title={issue ? `#${issue.number} ${issue.title}` : 'Issue詳細'}
             onClose={() => setDetailId(null)}
             size="lg"
           >
